@@ -1,508 +1,606 @@
-// Application data
-const appData = {
-  companyInfo: {
-    name: "goen合同会社",
-    founded: "2023年",
-    employees: 2,
-    ceo: "高嶋生也（コニカミノルタ出身）",
-    cto: "矢野義博（大日本印刷出身、280件以上の特許取得）"
-  },
-  socialIssue: {
-    title: "証券口座乗っ取り事件の深刻化",
-    totalDamage: "5,240億円",
-    totalAccess: "10,422件",
-    totalTransactions: "5,958件",
-    affectedCompanies: 16,
-    timeline: [
-      {month: "2025年1月", cases: 43, damage: 1.6},
-      {month: "2025年2月", cases: 43, damage: 1.6},
-      {month: "2025年3月", cases: 1420, damage: 257},
-      {month: "2025年4月", cases: 6380, damage: 2886},
-      {month: "2025年5月", cases: 10422, damage: 5240}
-    ]
-  },
-  attackMethods: [
-    {name: "フィッシング詐欺", threat: 3, description: "偽サイトへ誘導"},
-    {name: "インフォスティーラー", threat: 4, description: "認証情報窃取"},
-    {name: "RTPP攻撃", threat: 5, description: "リアルタイム中継"},
-    {name: "AiTM攻撃", threat: 5, description: "中間者攻撃"}
-  ],
-  defenseComparison: [
-    {method: "パスワードのみ", phishing: 0, infostealer: 0, aitm: 0, session: 0},
-    {method: "SMS OTP", phishing: 30, infostealer: 0, aitm: 0, session: 0},
-    {method: "アプリOTP", phishing: 50, infostealer: 0, aitm: 0, session: 0},
-    {method: "パスキー(FIDO2)", phishing: 90, infostealer: 0, aitm: 0, session: 0},
-    {method: "Zetto Wallet", phishing: 95, infostealer: 95, aitm: 95, session: 95}
-  ]
-};
+// Zetto Wallet Dashboard JavaScript
 
-// Chart colors
-const chartColors = ['#1FB8CD', '#FFC185', '#B4413C', '#ECEBD5', '#5D878F', '#DB4545', '#D2BA4C', '#964325', '#944454', '#13343B'];
-
-// DOM elements
-let damageChart, threatChart, defenseChart, costChart;
-
-// Initialize application
 document.addEventListener('DOMContentLoaded', function() {
-  initNavigation();
-  initCharts();
-  initInteractivity();
+    // Initialize the dashboard
+    initDashboard();
+    
+    // Initialize navigation
+    initNavigation();
+    
+    // Initialize charts
+    initCharts();
+    
+    // Add interactive animations
+    initAnimations();
+    
+    // Add KPI value animations
+    animateKPIValues();
 });
 
-// Navigation functionality
+function initDashboard() {
+    console.log('Zetto Wallet Dashboard initialized');
+    
+    // Show overview section by default
+    showSection('overview');
+}
+
 function initNavigation() {
-  const navTabs = document.querySelectorAll('.nav-tab');
-  const sections = document.querySelectorAll('.section');
-  
-  navTabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      const targetSection = tab.dataset.section;
-      
-      // Update active tab
-      navTabs.forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-      
-      // Update active section
-      sections.forEach(s => s.classList.remove('active'));
-      document.getElementById(targetSection).classList.add('active');
-      
-      // Refresh charts if needed
-      setTimeout(() => {
-        if (targetSection === 'problem') {
-          refreshCharts();
-        }
-      }, 100);
+    const navLinks = document.querySelectorAll('.nav-link');
+    
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const sectionId = this.getAttribute('data-section');
+            
+            // Remove active class from all nav links
+            navLinks.forEach(navLink => {
+                navLink.classList.remove('active');
+            });
+            
+            // Add active class to clicked link
+            this.classList.add('active');
+            
+            // Show corresponding section
+            showSection(sectionId);
+        });
     });
-  });
 }
 
-// Initialize all charts
+function showSection(sectionId) {
+    // Hide all sections
+    const sections = document.querySelectorAll('.content-section');
+    sections.forEach(section => {
+        section.classList.remove('active');
+    });
+    
+    // Show target section
+    const targetSection = document.getElementById(sectionId);
+    if (targetSection) {
+        targetSection.classList.add('active');
+        
+        // Scroll to top of main content
+        const mainContent = document.querySelector('.main-content');
+        mainContent.scrollTop = 0;
+        
+        // Initialize section-specific features
+        initSectionFeatures(sectionId);
+    }
+}
+
+function initSectionFeatures(sectionId) {
+    switch(sectionId) {
+        case 'social-issues':
+            // Initialize timeline chart if not already created
+            if (!document.querySelector('#timelineChart').hasAttribute('data-initialized')) {
+                createTimelineChart();
+            }
+            break;
+        case 'competitive-advantage':
+            // Initialize comparison chart if not already created
+            if (!document.querySelector('#comparisonChart')) {
+                createComparisonChart();
+            }
+            break;
+        case 'business-model':
+            // Initialize business model interactions
+            initBusinessModelInteractions();
+            break;
+    }
+}
+
 function initCharts() {
-  createDamageChart();
-  createThreatChart();
-  createDefenseChart();
-  createCostChart();
+    // Charts will be initialized when their sections are first viewed
+    // This improves initial load performance
 }
 
-// Create damage timeline chart
-function createDamageChart() {
-  const ctx = document.getElementById('damageChart');
-  if (!ctx) return;
-  
-  const data = appData.socialIssue.timeline;
-  
-  damageChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: data.map(item => item.month),
-      datasets: [
-        {
-          label: '被害額（億円）',
-          data: data.map(item => item.damage),
-          borderColor: chartColors[2],
-          backgroundColor: chartColors[2] + '20',
-          fill: true,
-          tension: 0.4,
-          pointRadius: 6,
-          pointHoverRadius: 8,
-          borderWidth: 3
-        },
-        {
-          label: '件数',
-          data: data.map(item => item.cases),
-          borderColor: chartColors[0],
-          backgroundColor: chartColors[0] + '20',
-          fill: false,
-          tension: 0.4,
-          pointRadius: 6,
-          pointHoverRadius: 8,
-          borderWidth: 3,
-          yAxisID: 'y1'
-        }
-      ]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          position: 'top'
-        },
-        title: {
-          display: true,
-          text: '証券口座乗っ取り被害の推移'
-        }
-      },
-      scales: {
-        y: {
-          type: 'linear',
-          display: true,
-          position: 'left',
-          title: {
-            display: true,
-            text: '被害額（億円）'
-          }
-        },
-        y1: {
-          type: 'linear',
-          display: true,
-          position: 'right',
-          title: {
-            display: true,
-            text: '件数'
-          },
-          grid: {
-            drawOnChartArea: false
-          }
-        }
-      },
-      interaction: {
-        mode: 'index',
-        intersect: false
-      }
-    }
-  });
-}
-
-// Create threat radar chart
-function createThreatChart() {
-  const ctx = document.getElementById('threatChart');
-  if (!ctx) return;
-  
-  const data = appData.attackMethods;
-  
-  threatChart = new Chart(ctx, {
-    type: 'radar',
-    data: {
-      labels: data.map(item => item.name),
-      datasets: [{
-        label: '脅威レベル',
-        data: data.map(item => item.threat),
-        borderColor: chartColors[2],
-        backgroundColor: chartColors[2] + '40',
-        borderWidth: 3,
-        pointRadius: 6,
-        pointHoverRadius: 8
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          position: 'top'
-        }
-      },
-      scales: {
-        r: {
-          beginAtZero: true,
-          max: 5,
-          ticks: {
-            stepSize: 1
-          }
-        }
-      }
-    }
-  });
-}
-
-// Create defense comparison chart
-function createDefenseChart() {
-  const ctx = document.getElementById('defenseChart');
-  if (!ctx) return;
-  
-  const data = appData.defenseComparison;
-  const attackTypes = ['phishing', 'infostealer', 'aitm', 'session'];
-  const attackLabels = ['フィッシング', 'インフォスティーラー', 'AiTM攻撃', 'セッション攻撃'];
-  
-  const datasets = attackTypes.map((type, index) => ({
-    label: attackLabels[index],
-    data: data.map(item => item[type]),
-    backgroundColor: chartColors[index],
-    borderColor: chartColors[index],
-    borderWidth: 1
-  }));
-  
-  defenseChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: data.map(item => item.method),
-      datasets: datasets
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          position: 'top'
-        },
-        title: {
-          display: true,
-          text: '認証方式別攻撃耐性比較（%）'
-        }
-      },
-      scales: {
-        y: {
-          beginAtZero: true,
-          max: 100,
-          title: {
-            display: true,
-            text: '防御率（%）'
-          }
-        },
-        x: {
-          title: {
-            display: true,
-            text: '認証方式'
-          }
-        }
-      },
-      interaction: {
-        mode: 'index',
-        intersect: false
-      }
-    }
-  });
-}
-
-// Create cost comparison chart
-function createCostChart() {
-  const ctx = document.getElementById('costChart');
-  if (!ctx) return;
-  
-  costChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: ['SMS認証', 'Zetto Wallet'],
-      datasets: [{
-        label: '認証単価（円）',
-        data: [20, 3], // SMS認証の平均値
-        backgroundColor: [chartColors[2], chartColors[0]],
-        borderColor: [chartColors[2], chartColors[0]],
-        borderWidth: 2
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          display: false
-        },
-        title: {
-          display: true,
-          text: '認証コスト比較'
-        }
-      },
-      scales: {
-        y: {
-          beginAtZero: true,
-          title: {
-            display: true,
-            text: '単価（円）'
-          }
-        }
-      }
-    }
-  });
-}
-
-// Refresh charts when switching tabs
-function refreshCharts() {
-  if (damageChart) damageChart.update();
-  if (threatChart) threatChart.update();
-  if (defenseChart) defenseChart.update();
-  if (costChart) costChart.update();
-}
-
-// Initialize interactive elements
-function initInteractivity() {
-  // Add hover effects to KPI cards
-  const kpiCards = document.querySelectorAll('.kpi-card');
-  kpiCards.forEach(card => {
-    card.addEventListener('mouseenter', () => {
-      card.style.transform = 'translateY(-4px) scale(1.02)';
-    });
+function createTimelineChart() {
+    const canvas = document.getElementById('timelineChart');
+    if (!canvas) return;
     
-    card.addEventListener('mouseleave', () => {
-      card.style.transform = 'translateY(0) scale(1)';
-    });
-  });
-  
-  // Add click effects to solution cards
-  const solutionCards = document.querySelectorAll('.solution-card');
-  solutionCards.forEach(card => {
-    card.addEventListener('click', () => {
-      // Remove active class from all cards
-      solutionCards.forEach(c => c.classList.remove('active'));
-      // Add active class to clicked card
-      card.classList.add('active');
-      
-      // Add some visual feedback
-      card.style.transform = 'scale(1.05)';
-      setTimeout(() => {
-        card.style.transform = 'scale(1)';
-      }, 200);
-    });
-  });
-  
-  // Add interactive timeline items
-  const timelineItems = document.querySelectorAll('.timeline-item');
-  timelineItems.forEach(item => {
-    item.addEventListener('click', () => {
-      item.classList.toggle('expanded');
-    });
-  });
-  
-  // Add roadmap phase interactions
-  const roadmapPhases = document.querySelectorAll('.roadmap-phase');
-  roadmapPhases.forEach((phase, index) => {
-    phase.addEventListener('click', () => {
-      // Remove active class from all phases
-      roadmapPhases.forEach(p => p.classList.remove('active'));
-      // Add active class to clicked phase
-      phase.classList.add('active');
-      
-      // Show phase details
-      showPhaseDetails(index + 1);
-    });
-  });
-  
-  // Add smooth scrolling for navigation
-  document.querySelectorAll('.nav-tab').forEach(tab => {
-    tab.addEventListener('click', (e) => {
-      e.preventDefault();
-      const targetSection = document.getElementById(tab.dataset.section);
-      targetSection.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-      });
-    });
-  });
-}
-
-// Show phase details
-function showPhaseDetails(phaseNumber) {
-  const phases = {
-    1: {
-      title: '証券会社導入フェーズ',
-      details: [
-        '主要証券会社5社への導入',
-        '月間認証回数: 500万回',
-        '市場シェア: 20%獲得',
-        '収益目標: 年間15億円'
-      ]
-    },
-    2: {
-      title: 'EC・決済事業者展開',
-      details: [
-        'リテール決済市場への本格参入',
-        '月間認証回数: 1億回',
-        '導入企業数: 20社',
-        '収益目標: 年間50億円'
-      ]
-    },
-    3: {
-      title: 'グローバル展開',
-      details: [
-        '海外10カ国への展開',
-        '行政システムへの導入',
-        'Web3プラットフォーム連携',
-        '収益目標: 年間100億円'
-      ]
-    }
-  };
-  
-  const phase = phases[phaseNumber];
-  if (phase) {
-    // Create modal or tooltip to show details
-    console.log(`Phase ${phaseNumber}:`, phase);
-  }
-}
-
-// Add keyboard navigation
-document.addEventListener('keydown', (e) => {
-  const activeTab = document.querySelector('.nav-tab.active');
-  const tabs = Array.from(document.querySelectorAll('.nav-tab'));
-  const currentIndex = tabs.indexOf(activeTab);
-  
-  if (e.key === 'ArrowLeft' && currentIndex > 0) {
-    tabs[currentIndex - 1].click();
-  } else if (e.key === 'ArrowRight' && currentIndex < tabs.length - 1) {
-    tabs[currentIndex + 1].click();
-  }
-});
-
-// Add data update animation
-function animateKPICards() {
-  const kpiValues = document.querySelectorAll('.kpi-value');
-  
-  kpiValues.forEach(value => {
-    const finalValue = value.textContent;
-    const isNumeric = !isNaN(parseFloat(finalValue));
+    canvas.setAttribute('data-initialized', 'true');
     
-    if (isNumeric) {
-      const numValue = parseFloat(finalValue.replace(/[^\d.]/g, ''));
-      let currentValue = 0;
-      const increment = numValue / 50;
-      
-      value.textContent = '0';
-      
-      const interval = setInterval(() => {
-        currentValue += increment;
-        if (currentValue >= numValue) {
-          currentValue = numValue;
-          clearInterval(interval);
+    const ctx = canvas.getContext('2d');
+    
+    // Timeline data from the provided JSON
+    const timelineData = [
+        {month: "1月", access: 43, transactions: 39, damage: 1.6},
+        {month: "2月", access: 43, transactions: 39, damage: 1.6}, 
+        {month: "3月", access: 1420, transactions: 736, damage: 257},
+        {month: "4月", access: 6380, transactions: 2746, damage: 2886},
+        {month: "5月", access: 10422, transactions: 5958, damage: 5240}
+    ];
+    
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: timelineData.map(d => d.month),
+            datasets: [
+                {
+                    label: '不正アクセス数',
+                    data: timelineData.map(d => d.access),
+                    borderColor: '#1FB8CD',
+                    backgroundColor: 'rgba(31, 184, 205, 0.1)',
+                    borderWidth: 3,
+                    fill: false,
+                    tension: 0.4
+                },
+                {
+                    label: '不正取引数',
+                    data: timelineData.map(d => d.transactions),
+                    borderColor: '#FFC185',
+                    backgroundColor: 'rgba(255, 193, 133, 0.1)',
+                    borderWidth: 3,
+                    fill: false,
+                    tension: 0.4
+                },
+                {
+                    label: '被害総額（億円）',
+                    data: timelineData.map(d => d.damage),
+                    borderColor: '#B4413C',
+                    backgroundColor: 'rgba(180, 65, 60, 0.1)',
+                    borderWidth: 3,
+                    fill: false,
+                    tension: 0.4,
+                    yAxisID: 'y1'
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                title: {
+                    display: true,
+                    text: '証券口座乗っ取り被害の推移（2025年1月〜5月）',
+                    font: {
+                        size: 16,
+                        weight: 'bold'
+                    }
+                },
+                legend: {
+                    position: 'top',
+                    labels: {
+                        usePointStyle: true,
+                        padding: 20
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    type: 'linear',
+                    display: true,
+                    position: 'left',
+                    title: {
+                        display: true,
+                        text: '件数'
+                    },
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.1)'
+                    }
+                },
+                y1: {
+                    type: 'linear',
+                    display: true,
+                    position: 'right',
+                    title: {
+                        display: true,
+                        text: '被害額（億円）'
+                    },
+                    grid: {
+                        drawOnChartArea: false,
+                    },
+                }
+            },
+            interaction: {
+                mode: 'index',
+                intersect: false,
+            }
+        }
+    });
+}
+
+function createComparisonChart() {
+    const comparisonSection = document.querySelector('#competitive-advantage');
+    if (!comparisonSection) return;
+    
+    // Create chart container
+    const chartContainer = document.createElement('div');
+    chartContainer.className = 'chart-container';
+    chartContainer.innerHTML = `
+        <h3 style="text-align: center; margin-bottom: 1rem; color: var(--color-text);">防御効果の総合比較</h3>
+        <canvas id="comparisonChart" style="height: 400px !important;"></canvas>
+    `;
+    chartContainer.style.cssText = `
+        margin-top: 2rem;
+        padding: 1.5rem;
+        background: var(--color-surface);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-md);
+    `;
+    
+    comparisonSection.appendChild(chartContainer);
+    
+    const ctx = document.getElementById('comparisonChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'radar',
+        data: {
+            labels: ['フィッシング', 'インフォスティーラー', 'AiTM攻撃', 'セッション窃取'],
+            datasets: [
+                {
+                    label: 'SMS認証',
+                    data: [30, 0, 0, 0],
+                    backgroundColor: 'rgba(255, 193, 133, 0.2)',
+                    borderColor: '#FFC185',
+                    borderWidth: 2
+                },
+                {
+                    label: 'FIDO2/パスキー',
+                    data: [90, 0, 0, 0],
+                    backgroundColor: 'rgba(180, 65, 60, 0.2)',
+                    borderColor: '#B4413C',
+                    borderWidth: 2
+                },
+                {
+                    label: 'Zetto Wallet',
+                    data: [95, 95, 95, 95],
+                    backgroundColor: 'rgba(31, 184, 205, 0.3)',
+                    borderColor: '#1FB8CD',
+                    borderWidth: 3,
+                    pointBackgroundColor: '#1FB8CD'
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        padding: 20
+                    }
+                }
+            },
+            scales: {
+                r: {
+                    beginAtZero: true,
+                    max: 100,
+                    ticks: {
+                        stepSize: 20
+                    },
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.1)'
+                    },
+                    pointLabels: {
+                        font: {
+                            size: 14
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
+function initBusinessModelInteractions() {
+    const businessCards = document.querySelectorAll('.business-card');
+    businessCards.forEach(card => {
+        card.addEventListener('click', function() {
+            // Remove selected class from all cards
+            businessCards.forEach(c => c.classList.remove('selected'));
+            
+            // Add selected class to clicked card
+            this.classList.add('selected');
+            
+            // Add visual feedback
+            this.style.transform = 'scale(1.05)';
+            setTimeout(() => {
+                this.style.transform = 'scale(1)';
+            }, 200);
+        });
+    });
+}
+
+function animateKPIValues() {
+    const kpiValues = document.querySelectorAll('.kpi-value');
+    
+    kpiValues.forEach(value => {
+        const finalValueText = value.textContent.replace(/,/g, '');
+        const finalValue = parseInt(finalValueText);
+        
+        if (isNaN(finalValue)) return;
+        
+        const duration = 2000; // 2 seconds
+        const startTime = performance.now();
+        
+        function animate(currentTime) {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            
+            // Ease out animation
+            const easedProgress = 1 - Math.pow(1 - progress, 3);
+            const currentValue = Math.floor(finalValue * easedProgress);
+            
+            // Format with commas for Japanese locale
+            value.textContent = currentValue.toLocaleString('ja-JP');
+            
+            if (progress < 1) {
+                requestAnimationFrame(animate);
+            } else {
+                // Ensure final value is exactly what was intended
+                value.textContent = finalValue.toLocaleString('ja-JP');
+            }
         }
         
-        value.textContent = finalValue.replace(/[\d.]+/, Math.floor(currentValue).toLocaleString());
-      }, 50);
+        // Start animation after a delay
+        setTimeout(() => {
+            requestAnimationFrame(animate);
+        }, 500);
+    });
+}
+
+function initAnimations() {
+    // Intersection Observer for scroll animations
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate-in');
+            }
+        });
+    }, observerOptions);
+    
+    // Observe all cards
+    document.querySelectorAll('.card').forEach(card => {
+        observer.observe(card);
+    });
+    
+    // Add hover effects to KPI cards
+    const kpiCards = document.querySelectorAll('.kpi-card');
+    kpiCards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-8px) scale(1.02)';
+        });
+        
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0) scale(1)';
+        });
+    });
+    
+    // Add click effects to comparison table rows
+    const tableRows = document.querySelectorAll('.comparison-table tbody tr');
+    tableRows.forEach(row => {
+        row.addEventListener('click', function() {
+            // Remove active class from all rows
+            tableRows.forEach(r => r.classList.remove('active-row'));
+            // Add active class to clicked row
+            this.classList.add('active-row');
+        });
+    });
+    
+    // Add pulse effect to critical stats
+    const criticalStats = document.querySelectorAll('.kpi-card.critical .kpi-value');
+    criticalStats.forEach(stat => {
+        setInterval(() => {
+            stat.style.animation = 'pulse 2s ease-in-out';
+            setTimeout(() => {
+                stat.style.animation = '';
+            }, 2000);
+        }, 8000);
+    });
+}
+
+// Add keyboard navigation support
+document.addEventListener('keydown', function(e) {
+    const navLinks = document.querySelectorAll('.nav-link');
+    const currentActive = document.querySelector('.nav-link.active');
+    const currentIndex = Array.from(navLinks).indexOf(currentActive);
+    
+    let newIndex = currentIndex;
+    
+    switch(e.key) {
+        case 'ArrowDown':
+            e.preventDefault();
+            newIndex = (currentIndex + 1) % navLinks.length;
+            break;
+        case 'ArrowUp':
+            e.preventDefault();
+            newIndex = (currentIndex - 1 + navLinks.length) % navLinks.length;
+            break;
+        case 'Enter':
+            if (currentActive) {
+                e.preventDefault();
+                currentActive.click();
+            }
+            break;
     }
-  });
-}
-
-// Initialize animations when page loads
-window.addEventListener('load', () => {
-  setTimeout(animateKPICards, 500);
+    
+    if (newIndex !== currentIndex) {
+        navLinks[newIndex].focus();
+        navLinks[newIndex].click();
+    }
 });
 
-// Add responsive chart handling
-window.addEventListener('resize', () => {
-  setTimeout(refreshCharts, 100);
-});
-
-// Add chart interaction handlers
-function addChartInteractions() {
-  // Add click handlers for chart elements
-  if (damageChart) {
-    damageChart.options.onClick = function(event, elements) {
-      if (elements.length > 0) {
-        const index = elements[0].index;
-        const data = appData.socialIssue.timeline[index];
-        console.log('Selected data point:', data);
-        // Could show detailed information about this data point
-      }
-    };
-  }
-  
-  if (defenseChart) {
-    defenseChart.options.onClick = function(event, elements) {
-      if (elements.length > 0) {
-        const index = elements[0].index;
-        const method = appData.defenseComparison[index];
-        console.log('Selected defense method:', method);
-        // Could show detailed comparison
-      }
-    };
-  }
+// Add scroll progress indicator for each section
+function addScrollProgress() {
+    const progressBar = document.createElement('div');
+    progressBar.id = 'scroll-progress';
+    progressBar.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: var(--sidebar-width);
+        width: calc(100% - var(--sidebar-width));
+        height: 4px;
+        background: linear-gradient(90deg, var(--color-primary), var(--color-primary-hover));
+        z-index: 9999;
+        transition: width 0.25s ease;
+        transform-origin: left;
+        transform: scaleX(0);
+    `;
+    document.body.appendChild(progressBar);
+    
+    const mainContent = document.querySelector('.main-content');
+    mainContent.addEventListener('scroll', () => {
+        const scrollTop = mainContent.scrollTop;
+        const scrollHeight = mainContent.scrollHeight - mainContent.clientHeight;
+        const scrollPercent = scrollHeight > 0 ? (scrollTop / scrollHeight) : 0;
+        progressBar.style.transform = `scaleX(${scrollPercent})`;
+    });
 }
 
-// Initialize chart interactions after charts are created
-setTimeout(addChartInteractions, 1000);
+// Initialize scroll progress after page load
+setTimeout(addScrollProgress, 500);
 
-// Export for potential external use
-window.dashboardApp = {
-  refreshCharts,
-  animateKPICards,
-  appData
+// Add CSS animations
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+    }
+    
+    .animate-in {
+        animation: fadeInUp 0.6s ease-out;
+    }
+    
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .active-row {
+        background: linear-gradient(135deg, rgba(31, 184, 205, 0.2) 0%, rgba(29, 116, 128, 0.2) 100%) !important;
+        transform: scale(1.02);
+        box-shadow: 0 4px 15px rgba(31, 184, 205, 0.3);
+    }
+    
+    .selected {
+        border-color: var(--color-primary) !important;
+        border-width: 2px !important;
+        box-shadow: 0 8px 25px rgba(31, 184, 205, 0.3) !important;
+    }
+    
+    .chart-container canvas {
+        height: 400px !important;
+    }
+    
+    /* Loading animation for section transitions */
+    .content-section {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.3s ease-in-out;
+    }
+    
+    .content-section.active {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+    /* Responsive navigation for mobile */
+    @media (max-width: 768px) {
+        #scroll-progress {
+            left: 0 !important;
+            width: 100% !important;
+        }
+        
+        .nav-menu {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-8);
+        }
+        
+        .nav-item {
+            margin-bottom: 0;
+        }
+        
+        .nav-link {
+            padding: var(--space-8) var(--space-12);
+            font-size: var(--font-size-sm);
+        }
+        
+        .nav-text {
+            display: none;
+        }
+        
+        .nav-icon {
+            margin-right: 0;
+        }
+    }
+`;
+document.head.appendChild(style);
+
+// Add smooth transitions for better UX
+function addSmoothTransitions() {
+    const sections = document.querySelectorAll('.content-section');
+    sections.forEach(section => {
+        section.style.transition = 'all 0.3s ease-in-out';
+    });
+}
+
+// Initialize smooth transitions
+setTimeout(addSmoothTransitions, 100);
+
+// Add section-specific initialization
+function initSectionSpecificFeatures() {
+    // Add click-to-expand functionality for threat cards
+    const threatCards = document.querySelectorAll('.threat-card');
+    threatCards.forEach(card => {
+        card.addEventListener('click', function() {
+            this.classList.toggle('expanded');
+            
+            if (this.classList.contains('expanded')) {
+                this.style.transform = 'scale(1.05)';
+                this.style.zIndex = '10';
+            } else {
+                this.style.transform = 'scale(1)';
+                this.style.zIndex = '1';
+            }
+        });
+    });
+    
+    // Add hover effects to market segments
+    const segments = document.querySelectorAll('.segment');
+    segments.forEach(segment => {
+        segment.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-4px) scale(1.1)';
+        });
+        
+        segment.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0) scale(1)';
+        });
+    });
+}
+
+// Initialize section-specific features
+setTimeout(initSectionSpecificFeatures, 1000);
+
+console.log('Zetto Wallet Dashboard fully loaded and interactive!');
+
+// Add performance monitoring
+window.addEventListener('load', function() {
+    console.log('Dashboard load time:', performance.now(), 'ms');
+});
+
+// Add error handling
+window.addEventListener('error', function(e) {
+    console.error('Dashboard error:', e.error);
+});
+
+// Export functions for testing
+window.zettoWalletDashboard = {
+    showSection,
+    initCharts,
+    animateKPIValues
 };

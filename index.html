@@ -3,410 +3,377 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zetto Wallet - FinTech Innovators Summit 2025</title>
+    <title>Zetto Wallet Dashboard - FinTech Innovators Summit 2025</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="app.js" defer></script>
 </head>
 <body>
-    <div class="dashboard">
-        <!-- Header -->
-        <header class="dashboard-header">
-            <div class="container">
-                <div class="header-content">
-                    <div class="logo-section">
-                        <h1 class="company-name">goen合同会社</h1>
-                        <p class="tagline">デジタル信頼の先物市場を大阪から世界へ</p>
-                    </div>
-                    <div class="contest-info">
-                        <div class="contest-badge">
-                            <span class="contest-date">2025年7月11日</span>
-                            <span class="contest-name">FinTech Innovators Summit</span>
-                        </div>
-                    </div>
-                </div>
+    <div class="dashboard-container">
+        <!-- 左側ナビゲーション -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h1 class="sidebar-title">Zetto Wallet</h1>
+                <p class="sidebar-subtitle">FinTech Innovators Summit 2025</p>
             </div>
-        </header>
-
-        <!-- Navigation -->
-        <nav class="dashboard-nav">
-            <div class="container">
-                <div class="nav-tabs">
-                    <button class="nav-tab active" data-section="summary">概要</button>
-                    <button class="nav-tab" data-section="problem">社会課題</button>
-                    <button class="nav-tab" data-section="solution">ソリューション</button>
-                    <button class="nav-tab" data-section="business">ビジネス</button>
-                    <button class="nav-tab" data-section="competitive">競合優位性</button>
-                    <button class="nav-tab" data-section="story">大阪発イノベーション</button>
-                    <button class="nav-tab" data-section="roadmap">ロードマップ</button>
-                </div>
-            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#overview" class="nav-link active" data-section="overview">
+                        <span class="nav-icon">📊</span>
+                        <span class="nav-text">概要</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#social-issues" class="nav-link" data-section="social-issues">
+                        <span class="nav-icon">🚨</span>
+                        <span class="nav-text">社会課題</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#solution" class="nav-link" data-section="solution">
+                        <span class="nav-icon">💡</span>
+                        <span class="nav-text">ソリューション</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#competitive-advantage" class="nav-link" data-section="competitive-advantage">
+                        <span class="nav-icon">🏆</span>
+                        <span class="nav-text">競合優位性</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#business-model" class="nav-link" data-section="business-model">
+                        <span class="nav-icon">💰</span>
+                        <span class="nav-text">ビジネスモデル</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#osaka-innovation" class="nav-link" data-section="osaka-innovation">
+                        <span class="nav-icon">🌟</span>
+                        <span class="nav-text">大阪発イノベーション</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#roadmap" class="nav-link" data-section="roadmap">
+                        <span class="nav-icon">🗺️</span>
+                        <span class="nav-text">ロードマップ</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#contact" class="nav-link" data-section="contact">
+                        <span class="nav-icon">📞</span>
+                        <span class="nav-text">お問い合わせ</span>
+                    </a>
+                </li>
+            </ul>
         </nav>
 
-        <!-- Main Content -->
-        <main class="dashboard-main">
-            <div class="container">
-                <!-- Executive Summary Section -->
-                <section id="summary" class="section active">
-                    <div class="section-header">
-                        <h2>エグゼクティブサマリー</h2>
-                        <p>証券口座乗っ取り被害の深刻化とZetto Walletソリューションの革新性</p>
+        <!-- メインコンテンツエリア -->
+        <main class="main-content">
+            <!-- 概要セクション -->
+            <section id="overview" class="content-section active">
+                <div class="section-header">
+                    <h2>概要</h2>
+                    <p class="section-subtitle">証券口座乗っ取り事件の現状と革新的解決策</p>
+                </div>
+                
+                <!-- KPIカード -->
+                <div class="kpi-grid">
+                    <div class="kpi-card critical">
+                        <div class="kpi-value">10,422</div>
+                        <div class="kpi-label">不正アクセス累計</div>
+                        <div class="kpi-unit">件（2025年1月〜5月末）</div>
                     </div>
-                    
-                    <div class="kpi-grid">
-                        <div class="kpi-card urgent">
-                            <div class="kpi-icon">⚠️</div>
-                            <div class="kpi-content">
-                                <h3>証券口座乗っ取り被害総額</h3>
-                                <div class="kpi-value">5,240億円</div>
-                                <div class="kpi-meta">2025年5月時点</div>
-                            </div>
-                        </div>
-                        
-                        <div class="kpi-card danger">
-                            <div class="kpi-icon">🔓</div>
-                            <div class="kpi-content">
-                                <h3>不正アクセス件数</h3>
-                                <div class="kpi-value">10,422件</div>
-                                <div class="kpi-meta">急激な増加傾向</div>
-                            </div>
-                        </div>
-                        
-                        <div class="kpi-card warning">
-                            <div class="kpi-icon">🏦</div>
-                            <div class="kpi-content">
-                                <h3>被害証券会社数</h3>
-                                <div class="kpi-value">16社</div>
-                                <div class="kpi-meta">業界全体の問題</div>
-                            </div>
-                        </div>
-                        
-                        <div class="kpi-card critical">
-                            <div class="kpi-icon">🚫</div>
-                            <div class="kpi-content">
-                                <h3>従来MFA突破率</h3>
-                                <div class="kpi-value">100%</div>
-                                <div class="kpi-meta">AiTM攻撃により</div>
-                            </div>
-                        </div>
-                        
-                        <div class="kpi-card success">
-                            <div class="kpi-icon">🛡️</div>
-                            <div class="kpi-content">
-                                <h3>Zetto Wallet防御率</h3>
-                                <div class="kpi-value">95%+</div>
-                                <div class="kpi-meta">特許技術により</div>
-                            </div>
-                        </div>
-                        
-                        <div class="kpi-card innovation">
-                            <div class="kpi-icon">💡</div>
-                            <div class="kpi-content">
-                                <h3>コスト削減効果</h3>
-                                <div class="kpi-value">90%</div>
-                                <div class="kpi-meta">SMS認証 vs Zetto</div>
-                            </div>
-                        </div>
+                    <div class="kpi-card critical">
+                        <div class="kpi-value">5,958</div>
+                        <div class="kpi-label">不正取引累計</div>
+                        <div class="kpi-unit">件（2025年1月〜5月末）</div>
                     </div>
-                </section>
-
-                <!-- Problem Analysis Section -->
-                <section id="problem" class="section">
-                    <div class="section-header">
-                        <h2>社会課題の深刻度</h2>
-                        <p>証券口座乗っ取り被害の急激な拡大</p>
+                    <div class="kpi-card damage">
+                        <div class="kpi-value">5,240</div>
+                        <div class="kpi-label">被害総額</div>
+                        <div class="kpi-unit">億円</div>
                     </div>
-                    
-                    <div class="chart-container">
-                        <div class="chart-wrapper">
-                            <h3>被害拡大の時系列推移</h3>
-                            <canvas id="damageChart"></canvas>
-                        </div>
-                        
-                        <div class="chart-wrapper">
-                            <h3>攻撃手法別脅威レベル</h3>
-                            <canvas id="threatChart"></canvas>
-                        </div>
-                    </div>
-                    
-                    <div class="defense-comparison">
-                        <h3>従来認証方式の限界</h3>
-                        <canvas id="defenseChart"></canvas>
-                    </div>
-                </section>
-
-                <!-- Solution Section -->
-                <section id="solution" class="section">
-                    <div class="section-header">
-                        <h2>Zetto Walletソリューション</h2>
-                        <p>マイナンバーカード連携による革新的認証システム</p>
-                    </div>
-                    
-                    <div class="solution-grid">
-                        <div class="solution-card">
-                            <div class="solution-icon">🆔</div>
-                            <h3>マイナンバーカード連携</h3>
-                            <p>国家認証基盤による確実なKYC（本人確認）</p>
-                            <div class="solution-features">
-                                <span class="feature-tag">高セキュリティ</span>
-                                <span class="feature-tag">偽造不可</span>
-                            </div>
-                        </div>
-                        
-                        <div class="solution-card">
-                            <div class="solution-icon">🔐</div>
-                            <h3>ノンカストディアルウォレット</h3>
-                            <p>ユーザーが秘密鍵を完全制御</p>
-                            <div class="solution-features">
-                                <span class="feature-tag">自己管理</span>
-                                <span class="feature-tag">カウンターパーティリスク回避</span>
-                            </div>
-                        </div>
-                        
-                        <div class="solution-card">
-                            <div class="solution-icon">🔄</div>
-                            <h3>チャレンジレスポンス認証</h3>
-                            <p>リアルタイム双方向認証</p>
-                            <div class="solution-features">
-                                <span class="feature-tag">中間者攻撃対策</span>
-                                <span class="feature-tag">セッション保護</span>
-                            </div>
-                        </div>
-                        
-                        <div class="solution-card patent">
-                            <div class="solution-icon">🌐</div>
-                            <h3>ゼロトラストVPN</h3>
-                            <p>特許技術による通信保護</p>
-                            <div class="solution-features">
-                                <span class="feature-tag">特許取得済み</span>
-                                <span class="feature-tag">エンドツーエンド暗号化</span>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Business Model Section -->
-                <section id="business" class="section">
-                    <div class="section-header">
-                        <h2>ビジネスモデル・市場機会</h2>
-                        <p>巨大な市場とコスト優位性</p>
-                    </div>
-                    
-                    <div class="business-metrics">
-                        <div class="metric-card">
-                            <h3>市場規模</h3>
-                            <div class="metric-value">3,000万口座</div>
-                            <p>日本の証券口座数超</p>
-                        </div>
-                        
-                        <div class="metric-card">
-                            <h3>コスト優位性</h3>
-                            <div class="cost-comparison">
-                                <div class="cost-item">
-                                    <span class="cost-label">SMS認証</span>
-                                    <span class="cost-value expensive">10-30円</span>
-                                </div>
-                                <div class="cost-arrow">→</div>
-                                <div class="cost-item">
-                                    <span class="cost-label">Zetto Wallet</span>
-                                    <span class="cost-value cheap">3円</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="metric-card">
-                            <h3>グローバル展開</h3>
-                            <div class="metric-value">100カ国+</div>
-                            <p>ICカード採用国数</p>
-                        </div>
-                    </div>
-                    
-                    <div class="revenue-model">
-                        <h3>収益モデル</h3>
-                        <div class="revenue-streams">
-                            <div class="revenue-item">
-                                <div class="revenue-type">オンプレミス導入</div>
-                                <div class="revenue-amount">150-350万円</div>
-                            </div>
-                            <div class="revenue-item">
-                                <div class="revenue-type">従量課金</div>
-                                <div class="revenue-amount">3円/認証</div>
-                            </div>
-                            <div class="revenue-item">
-                                <div class="revenue-type">月額ミニマム</div>
-                                <div class="revenue-amount">150万円</div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Competitive Advantage Section -->
-                <section id="competitive" class="section">
-                    <div class="section-header">
-                        <h2>競合優位性マトリックス</h2>
-                        <p>技術・コスト・適用範囲での圧倒的優位性</p>
-                    </div>
-                    
-                    <div class="competitive-matrix">
-                        <div class="advantage-card">
-                            <h3>技術的優位性</h3>
-                            <div class="advantage-content">
-                                <div class="patent-list">
-                                    <div class="patent-item">
-                                        <span class="patent-status granted">取得済み</span>
-                                        <span class="patent-title">特許第7349689号</span>
-                                    </div>
-                                    <div class="patent-item">
-                                        <span class="patent-status granted">取得済み</span>
-                                        <span class="patent-title">特許第7433620号</span>
-                                    </div>
-                                    <div class="patent-item">
-                                        <span class="patent-status pending">出願中</span>
-                                        <span class="patent-title">特願2025-051887</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="advantage-card">
-                            <h3>コスト優位性</h3>
-                            <div class="cost-chart">
-                                <canvas id="costChart"></canvas>
-                            </div>
-                        </div>
-                        
-                        <div class="advantage-card">
-                            <h3>実績・評価</h3>
-                            <div class="achievements">
-                                <div class="achievement">異能vation 2023 ジェネレーションアワード</div>
-                                <div class="achievement">品川区五反田バレーアクセラレーション</div>
-                                <div class="achievement">FIN/SUM2025 インパクトピッチファイナリスト</div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Osaka Story Section -->
-                <section id="story" class="section">
-                    <div class="section-header">
-                        <h2>大阪発イノベーション</h2>
-                        <p>堂島米会所から続く先物市場の革新</p>
-                    </div>
-                    
-                    <div class="story-timeline">
-                        <div class="timeline-item historical">
-                            <div class="timeline-year">1730年</div>
-                            <div class="timeline-content">
-                                <h3>堂島米会所</h3>
-                                <p>世界初の先物市場として設立</p>
-                                <div class="timeline-impact">金融革新の出発点</div>
-                            </div>
-                        </div>
-                        
-                        <div class="timeline-item modern">
-                            <div class="timeline-year">2025年</div>
-                            <div class="timeline-content">
-                                <h3>Zetto Wallet</h3>
-                                <p>デジタル信頼の先物市場</p>
-                                <div class="timeline-impact">セキュリティ革新</div>
-                            </div>
-                        </div>
-                        
-                        <div class="timeline-item future">
-                            <div class="timeline-year">2027年+</div>
-                            <div class="timeline-content">
-                                <h3>グローバル展開</h3>
-                                <p>国際金融都市OSAKA構想</p>
-                                <div class="timeline-impact">世界標準への貢献</div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="vision-statement">
-                        <h3>ビジョン</h3>
-                        <p class="vision-text">「国家レベルの脅威から社会を守る信頼のインフラを、大阪から世界へ」</p>
-                    </div>
-                </section>
-
-                <!-- Roadmap Section -->
-                <section id="roadmap" class="section">
-                    <div class="section-header">
-                        <h2>実装ロードマップ</h2>
-                        <p>段階的な市場展開戦略</p>
-                    </div>
-                    
-                    <div class="roadmap-timeline">
-                        <div class="roadmap-phase">
-                            <div class="phase-header">
-                                <div class="phase-number">1</div>
-                                <div class="phase-info">
-                                    <h3>証券会社導入</h3>
-                                    <div class="phase-period">2025年下半期</div>
-                                </div>
-                            </div>
-                            <div class="phase-content">
-                                <p>主要証券会社への導入開始</p>
-                                <div class="phase-metrics">
-                                    <span class="metric">導入目標: 5社</span>
-                                    <span class="metric">市場シェア: 20%</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="roadmap-phase">
-                            <div class="phase-header">
-                                <div class="phase-number">2</div>
-                                <div class="phase-info">
-                                    <h3>EC・決済事業者</h3>
-                                    <div class="phase-period">2026年</div>
-                                </div>
-                            </div>
-                            <div class="phase-content">
-                                <p>リテール決済市場への展開</p>
-                                <div class="phase-metrics">
-                                    <span class="metric">導入目標: 20社</span>
-                                    <span class="metric">認証回数: 月間1億回</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="roadmap-phase">
-                            <div class="phase-header">
-                                <div class="phase-number">3</div>
-                                <div class="phase-info">
-                                    <h3>グローバル展開</h3>
-                                    <div class="phase-period">2027年以降</div>
-                                </div>
-                            </div>
-                            <div class="phase-content">
-                                <p>行政・Web3・海外市場</p>
-                                <div class="phase-metrics">
-                                    <span class="metric">展開国: 10カ国</span>
-                                    <span class="metric">売上目標: 100億円</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            </div>
-        </main>
-
-        <!-- Footer -->
-        <footer class="dashboard-footer">
-            <div class="container">
-                <div class="footer-content">
-                    <div class="company-info">
-                        <h3>goen合同会社</h3>
-                        <p>CEO: 高嶋生也（コニカミノルタ出身）</p>
-                        <p>CTO: 矢野義博（大日本印刷出身・280件以上の特許取得）</p>
-                    </div>
-                    <div class="contact-info">
-                        <h3>お問い合わせ</h3>
-                        <p>デジタル信頼の先物市場を一緒に創りませんか？</p>
+                    <div class="kpi-card affected">
+                        <div class="kpi-value">16</div>
+                        <div class="kpi-label">被害証券会社数</div>
+                        <div class="kpi-unit">社</div>
                     </div>
                 </div>
-            </div>
-        </footer>
+
+                <!-- 問題と解決策の概要 -->
+                <div class="overview-content">
+                    <div class="card overview-card">
+                        <div class="card__body">
+                            <h3>🚨 緊急事態</h3>
+                            <p>MFA・パスキーでも防げない攻撃手法（RTPP、AiTM、インフォスティーラー）により証券業界が深刻な被害を受けています。</p>
+                        </div>
+                    </div>
+                    <div class="card overview-card">
+                        <div class="card__body">
+                            <h3>💡 革新的解決策</h3>
+                            <p>「ハッカーと同じ土俵で戦わない」KYC済みノンカストディアルウォレットによる95%の包括的防御を実現。</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 社会課題セクション -->
+            <section id="social-issues" class="content-section">
+                <div class="section-header">
+                    <h2>社会課題</h2>
+                    <p class="section-subtitle">証券口座乗っ取り事件の深刻さ</p>
+                </div>
+                
+                <div class="timeline-chart-container">
+                    <canvas id="timelineChart"></canvas>
+                </div>
+
+                <div class="threat-grid">
+                    <div class="card threat-card">
+                        <div class="card__body">
+                            <h3>RTPP攻撃</h3>
+                            <p class="threat-subtitle">リアルタイムフィッシングプロキシ</p>
+                            <p><strong>MFA突破率：90%</strong></p>
+                            <p>ユーザーとサーバー間のリアルタイム通信を傍受し、認証情報を窃取する極めて困難な攻撃手法。</p>
+                        </div>
+                    </div>
+                    <div class="card threat-card">
+                        <div class="card__body">
+                            <h3>AiTM攻撃</h3>
+                            <p class="threat-subtitle">Adversary-in-the-Middle</p>
+                            <p><strong>MFA突破率：完全突破</strong></p>
+                            <p>中間者攻撃により、セッションクッキーやトークンを窃取し、ほぼ不可能な検出難度を持つ。</p>
+                        </div>
+                    </div>
+                    <div class="card threat-card">
+                        <div class="card__body">
+                            <h3>インフォスティーラー</h3>
+                            <p class="threat-subtitle">情報窃取型マルウェア</p>
+                            <p><strong>セッション窃取</strong></p>
+                            <p>デバイスに感染し、保存された認証情報を盗取する困難な検出を持つ攻撃手法。</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ソリューションセクション -->
+            <section id="solution" class="content-section">
+                <div class="section-header">
+                    <h2>ソリューション</h2>
+                    <p class="section-subtitle">Zetto Walletの革新的アプローチ</p>
+                </div>
+                
+                <div class="solution-grid">
+                    <div class="card solution-card">
+                        <div class="card__body">
+                            <h3>🪪 マイナンバーカードとの連携</h3>
+                            <p>JPKI（公的個人認証）活用によるKYC済みノンカストディアルウォレットで、本人確認済み認証を実現。</p>
+                        </div>
+                    </div>
+                    <div class="card solution-card">
+                        <div class="card__body">
+                            <h3>📱 OTP配信機能内蔵</h3>
+                            <p>専用ウォレットアプリ内でOTP生成・配信機能を内蔵し、外部の攻撃経路を遮断。</p>
+                        </div>
+                    </div>
+                    <div class="card solution-card">
+                        <div class="card__body">
+                            <h3>🔐 チャレンジレスポンス認証</h3>
+                            <p>動的な暗号化プロトコルにより、セッション窃取攻撃を根本的に防止。</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 競合優位性セクション -->
+            <section id="competitive-advantage" class="content-section">
+                <div class="section-header">
+                    <h2>競合優位性</h2>
+                    <p class="section-subtitle">従来技術との比較</p>
+                </div>
+                
+                <div class="comparison-table-container">
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>防御手段</th>
+                                <th>フィッシング</th>
+                                <th>インフォスティーラー</th>
+                                <th>AiTM攻撃</th>
+                                <th>コスト/回</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>SMS認証</td>
+                                <td class="effectiveness-low">30%</td>
+                                <td class="effectiveness-low">0%</td>
+                                <td class="effectiveness-low">0%</td>
+                                <td>10-30円</td>
+                            </tr>
+                            <tr>
+                                <td>FIDO2/パスキー</td>
+                                <td class="effectiveness-high">90%</td>
+                                <td class="effectiveness-low">0%</td>
+                                <td class="effectiveness-low">0%</td>
+                                <td>高額</td>
+                            </tr>
+                            <tr class="zetto-row">
+                                <td><strong>Zetto Wallet</strong></td>
+                                <td class="effectiveness-excellent">95%</td>
+                                <td class="effectiveness-excellent">95%</td>
+                                <td class="effectiveness-excellent">95%</td>
+                                <td><strong>3円</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- ビジネスモデルセクション -->
+            <section id="business-model" class="content-section">
+                <div class="section-header">
+                    <h2>ビジネスモデル</h2>
+                    <p class="section-subtitle">収益モデルと市場機会</p>
+                </div>
+                
+                <div class="business-grid">
+                    <div class="card business-card">
+                        <div class="card__body">
+                            <h3>オンプレミス提供</h3>
+                            <div class="price-large">150-350万円</div>
+                            <p>初期導入費用</p>
+                        </div>
+                    </div>
+                    <div class="card business-card">
+                        <div class="card__body">
+                            <h3>認証単価</h3>
+                            <div class="price-large">3円</div>
+                            <p>SMS認証の1/3〜1/10</p>
+                        </div>
+                    </div>
+                    <div class="card business-card">
+                        <div class="card__body">
+                            <h3>国内市場</h3>
+                            <div class="price-large">3,000万</div>
+                            <p>口座（証券業界）</p>
+                        </div>
+                    </div>
+                    <div class="card business-card">
+                        <div class="card__body">
+                            <h3>グローバル展開</h3>
+                            <div class="price-large">100カ国</div>
+                            <p>展開可能</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="market-segments">
+                    <div class="segment">証券</div>
+                    <div class="segment">EC</div>
+                    <div class="segment">Web3</div>
+                    <div class="segment">行政認証</div>
+                    <div class="segment">リテール決済</div>
+                </div>
+            </section>
+
+            <!-- 大阪発イノベーションセクション -->
+            <section id="osaka-innovation" class="content-section">
+                <div class="section-header">
+                    <h2>大阪発イノベーション</h2>
+                    <p class="section-subtitle">堂島米会所からの系譜</p>
+                </div>
+                
+                <div class="innovation-story">
+                    <div class="story-card">
+                        <div class="story-icon">🏛️</div>
+                        <h3>堂島米会所（世界初の先物市場）</h3>
+                        <p>1697年に設立された世界初の先物市場の精神を受け継ぎ、デジタル時代の信頼インフラを構築します。</p>
+                    </div>
+                    <div class="story-card">
+                        <div class="story-icon">🌐</div>
+                        <h3>デジタル信頼の先物市場</h3>
+                        <p>認証技術を通じて、デジタル社会における信頼を「先物取引」するような革新的な仕組みを提供します。</p>
+                    </div>
+                    <div class="story-card">
+                        <div class="story-icon">🏙️</div>
+                        <h3>国際金融都市OSAKA構想</h3>
+                        <p>大阪の金融イノベーションハブとしての地位確立に貢献し、世界をリードする認証技術を大阪から発信します。</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ロードマップセクション -->
+            <section id="roadmap" class="content-section">
+                <div class="section-header">
+                    <h2>ロードマップ</h2>
+                    <p class="section-subtitle">今後の展開戦略</p>
+                </div>
+                
+                <div class="roadmap-timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-marker phase1">1</div>
+                        <div class="timeline-content">
+                            <h3>フェーズ1：証券業界への導入</h3>
+                            <p class="timeline-date">2025年下半期〜2026年</p>
+                            <ul>
+                                <li>大手証券会社への導入開始</li>
+                                <li>業界標準としての地位確立</li>
+                                <li>監査法人・規制当局との連携</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-marker phase2">2</div>
+                        <div class="timeline-content">
+                            <h3>フェーズ2：多業界への展開</h3>
+                            <p class="timeline-date">2026年〜2027年</p>
+                            <ul>
+                                <li>EC・Web3・行政認証への拡大</li>
+                                <li>リテール決済分野への参入</li>
+                                <li>API連携による生態系構築</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-marker phase3">3</div>
+                        <div class="timeline-content">
+                            <h3>フェーズ3：グローバル展開</h3>
+                            <p class="timeline-date">2027年以降</p>
+                            <ul>
+                                <li>アジア・欧米市場への展開</li>
+                                <li>各国のデジタルID制度との連携</li>
+                                <li>国際標準化の推進</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- お問い合わせセクション -->
+            <section id="contact" class="content-section">
+                <div class="section-header">
+                    <h2>お問い合わせ</h2>
+                    <p class="section-subtitle">デジタル信頼の先物市場を一緒に作りませんか？</p>
+                </div>
+                
+                <div class="contact-content">
+                    <div class="contact-card">
+                        <div class="contact-icon">🌐</div>
+                        <h3>公式サイト</h3>
+                        <a href="https://goen.io/" target="_blank" class="btn btn--primary btn--lg">
+                            goen.io を訪問
+                        </a>
+                    </div>
+                    <div class="contact-message">
+                        <p>証券口座乗っ取り事件という深刻な社会課題に対して、革新的なソリューションを提供します。</p>
+                        <p>大阪から世界へ、デジタル信頼の新時代を切り開きましょう。</p>
+                    </div>
+                </div>
+            </section>
+        </main>
     </div>
+
+    <script src="app.js"></script>
 </body>
 </html>
